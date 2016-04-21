@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class driver {
   public static void main(String[] args){
-    aes cipher = new aes();
+    AES cipher = new AES();
     Scanner input = new Scanner(System.in);
     String theKey = input.nextLine();
     cipher.aesRoundKeys(theKey);

@@ -1,7 +1,7 @@
-import java.util.Arrays;
+package aes;
 
 /**
- * @file: aes.java
+ * @file: AES.java
  * @author Zach Stecher
  * @Class: MSCS630 - Security Algorithms and Protocols
  * @Assignment: Final Project
@@ -14,12 +14,15 @@ import java.util.Arrays;
  *
  */
 
-public class aes {
+public class AES {
   
-  static String[][] K = new String[4][4];
-  static String[][] W = new String[4][44];
+  public String[][] K = new String[4][8];		// Initialize to handle largest possible input...
+  public String[][] W = new String[4][60];		// Only use what is necessary...
   public String[][] pTextHexMat = new String[4][4];
   public String[][] cTextHex = new String[4][4];
+  public int rounds = 0;
+  public int columns = 0;
+  public int keySize = 0;
   /*
    * Initialization of variables and matrices
    */
@@ -93,7 +96,7 @@ public class aes {
           0xfb, 0xf9, 0xff, 0xfd, 0xf3, 0xf1, 0xf7, 0xf5, 0xeb, 0xe9, 0xef, 0xed, 0xe3, 0xe1, 0xe7, 0xe5
     };
 
-public static int[] mc3 = {   
+  public static int[] mc3 = {   
               0x00,0x03,0x06,0x05,0x0c,0x0f,0x0a,0x09,0x18,0x1b,0x1e,0x1d,0x14,0x17,0x12,0x11,
               0x30,0x33,0x36,0x35,0x3c,0x3f,0x3a,0x39,0x28,0x2b,0x2e,0x2d,0x24,0x27,0x22,0x21,
               0x60,0x63,0x66,0x65,0x6c,0x6f,0x6a,0x69,0x78,0x7b,0x7e,0x7d,0x74,0x77,0x72,0x71,
@@ -119,7 +122,7 @@ public static int[] mc3 = {
    * Parameters:
    * 
    * Input
-   *    keyHex - the 16-byte secret key in hex format
+   *    keyHex - the secret key in hex format
    * 
    * Method for generating the table W to be used as the round keys.
    * Copies K into the first 4 columns, then follows the key schedule to
@@ -127,11 +130,24 @@ public static int[] mc3 = {
    */
   
   public void aesRoundKeys(String keyHex){
+	keySize = (keyHex.length() / 8);
     initialRoundKeys(keyHex);
-    for (int i = 4; i < 44; i++){
-       
-      if ((i%4) == 0){ // if the column IS divisible by 4...
-        //System.out.println("");
+    if(keyHex.length() == 32) {
+    	columns = 44;
+    	rounds = 10;
+    }
+    if(keyHex.length() == 48) {
+    	columns = 52;
+    	rounds = 12;
+    }
+    if(keyHex.length() == 64) {
+    	columns = 60;
+    	rounds = 14;
+    }
+    int sLookup = 0; // Used to determine whether or not to do the extra Sbox lookup for 256-bit
+    for (int i = keySize; i < columns; i++){
+      //if ((i%4) == 0) System.out.println("");
+      if ((i%keySize) == 0 && sLookup == 0){ // if the column IS divisible by the key size...
           String[] Wnew = new String[4];
           for(int k = 0; k < 4; k++){   // Copy the previous column into a temporary storage area
             Wnew[k] = W[k][i-1];
@@ -149,14 +165,27 @@ public static int[] mc3 = {
             if (m == 0){                // Only perform the rcon XOR on the first byte of Wnew
               Wnew[m] = aesRcon(Wnew[m], i);
             }
-            W[m][i] = roundXOR(Wnew[m], W[m][i-4]);
+            W[m][i] = roundXOR(Wnew[m], W[m][i-keySize]);
            //System.out.print(W[m][i]);
           }
+          if (columns == 60) sLookup = 1;
         
       }
-      else{  // once we pass the first 4 columns, if the column is not divisible by 4...
+      else if (columns == 60 && (i%4) == 0 && sLookup == 1){
+        String[] Wnew = new String[4];
+        for(int k = 0; k < 4; k++){   // Copy the previous column into a temporary storage area
+          Wnew[k] = W[k][i-1];
+        }
+        for(int m = 0; m < 4; m++){   // Perform the S-box substitution plus the rcon XOR
+            Wnew[m] = aesSbox(Wnew[m]);
+            W[m][i] = roundXOR(Wnew[m], W[m][i-keySize]);
+          }
+        sLookup = 0;
+        
+      }
+      else{  // once we pass the first columns, if the column is not divisible by the key size...
         for (int j = 0; j < 4; j++){
-            W[j][i] = roundXOR(W[j][i-1], W[j][i-4]);
+            W[j][i] = roundXOR(W[j][i-1], W[j][i-keySize]);
             //System.out.print(W[j][i]);
         }
       }
@@ -208,7 +237,7 @@ public static int[] mc3 = {
    */
   
   private String aesRcon(String s, int round){
-    int rlookup = (int) Math.floor(round/4);
+    int rlookup = (int) Math.floor(round/keySize);
     String rlookupXOR = Integer.toHexString(rcon[rlookup]);
     String result = Integer.toHexString((hex2decimal(s) ^ hex2decimal(rlookupXOR)));  // Couldn't get this to work with roundXOR method...
     if(result.length() < 2){    // Clunky way to temporarily fix the 0 trimming problem
@@ -231,7 +260,7 @@ public static int[] mc3 = {
    */
   private void initialRoundKeys(String s){
     int counter = 0;
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < keySize; i++){
       for (int j = 0; j < 4; j++){
         K[j][i] = s.substring(counter, (counter + 2));
         W[j][i] = K[j][i];
@@ -336,7 +365,7 @@ public static int[] mc3 = {
      * key to encrypt a message and provide us with a ciphertext.
      */
     
-    public String[][] aes(String pTextHex, String[][] keyHex){
+    public String[][] aesEncrypt(String pTextHex, String[][] keyHex){
       
       pTextHexMatrix(pTextHex);
       String[][] cTextHex = new String[4][4];
@@ -346,14 +375,14 @@ public static int[] mc3 = {
       cTextHex = aesStateXOR(pTextHexMat, roundKey);
       
       // Start the 9 normal rounds of encryption...
-      for(int i = 1; i < 11; i++){
+      for(int i = 1; i < (rounds+1); i++){
         for (int j = 0; j < 4; j++){
           for (int k = 0; k < 4; k ++){
             roundKey[k][j] = keyHex[k][(i*4)+j];
           }
         }
 
-	if (i != 10){
+	if (i != rounds){
 	  cTextHex = aesNibbleSub(cTextHex);
           cTextHex = aesShiftRow(cTextHex);
           cTextHex = aesMixColumn(cTextHex);
