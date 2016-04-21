@@ -1,7 +1,7 @@
 package aes;
 
 /**
- * @file: aes.java
+ * @file: AES.java
  * @author Zach Stecher
  * @Class: MSCS630 - Security Algorithms and Protocols
  * @Assignment: Final Project
