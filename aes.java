@@ -5,7 +5,6 @@ import java.util.Arrays;
  * @author Zach Stecher
  * @Class: MSCS630 - Security Algorithms and Protocols
  * @Assignment: Final Project
- * @Due Date: February 23rd, 2016; March 29th, 2016
  * 
  * This file contains the methods to generate AES cipher round
  * keys given a secret key as a hex value String.
