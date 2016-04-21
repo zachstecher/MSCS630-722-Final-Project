@@ -1,21 +1,21 @@
 import java.util.Arrays;
 
 /**
- * @file: aescipher.java
+ * @file: aes.java
  * @author Zach Stecher
  * @Class: MSCS630 - Security Algorithms and Protocols
- * @Assignment: Labs 2 & 3
+ * @Assignment: Final Project
  * @Due Date: February 23rd, 2016; March 29th, 2016
  * 
  * This file contains the methods to generate AES cipher round
  * keys given a secret key as a hex value String.
  * 
- * This file also contains the methods to encrypt a 16-byte
- * plaintext using a given secret key, and produce a ciphertext.
+ * This file encrypts and decrypts plaintext messages using 128,
+ * 192, or 256-bit aes encryption keys from the driver file.
  *
  */
 
-public class AEScipher {
+public class aes {
   
   static String[][] K = new String[4][4];
   static String[][] W = new String[4][44];
