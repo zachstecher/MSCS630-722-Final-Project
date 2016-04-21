@@ -14,7 +14,7 @@ package aes;
  *
  */
 
-public class aes {
+public class AES {
   
   public String[][] K = new String[4][4];
   public String[][] W = new String[4][44];
