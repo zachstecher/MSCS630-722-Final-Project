@@ -19,6 +19,6 @@ public class driver {
     String theKey = input.nextLine();
     cipher.aesRoundKeys(theKey);
     String plainText = input.nextLine();
-    cipher.aes(plainText, cipher.W);
+    cipher.aesEncrypt(plainText, cipher.W);
   }
 }
