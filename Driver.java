@@ -1,9 +1,8 @@
 /**
- * file: Driver.java
+ * file: driver.java
  * @author Zach Stecher
  * Class: MSCS630 - Security Algorithms and Protocols
- * Assignment: Lab 2 & Lab 3
- * Due Date: February 23rd, 2016; March 29th, 2016
+ * Assignment: Final Project
  * 
  * This file passes the key and plaintext from its .txt file 
  * into the aescipher class to generate the round keys and
@@ -13,9 +12,9 @@
 
 import java.util.Scanner;
 
-public class Driver {
+public class driver {
   public static void main(String[] args){
-    AEScipher cipher = new AEScipher();
+    aes cipher = new aes();
     Scanner input = new Scanner(System.in);
     String theKey = input.nextLine();
     cipher.aesRoundKeys(theKey);
