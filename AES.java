@@ -1,5 +1,3 @@
-package aes;
-
 /**
  * @file: AES.java
  * @author Zach Stecher
