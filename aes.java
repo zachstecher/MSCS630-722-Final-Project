@@ -1,7 +1,5 @@
 package aes;
 
-import java.util.Arrays;
-
 /**
  * @file: aes.java
  * @author Zach Stecher
@@ -146,10 +144,10 @@ public class AES {
     	columns = 60;
     	rounds = 14;
     }
-    
+    int sLookup = 0; // Used to determine whether or not to do the extra Sbox lookup for 256-bit
     for (int i = keySize; i < columns; i++){
       //if ((i%4) == 0) System.out.println("");
-      if ((i%keySize) == 0){ // if the column IS divisible by the key size...
+      if ((i%keySize) == 0 && sLookup == 0){ // if the column IS divisible by the key size...
           String[] Wnew = new String[4];
           for(int k = 0; k < 4; k++){   // Copy the previous column into a temporary storage area
             Wnew[k] = W[k][i-1];
@@ -170,6 +168,19 @@ public class AES {
             W[m][i] = roundXOR(Wnew[m], W[m][i-keySize]);
            //System.out.print(W[m][i]);
           }
+          if (columns == 60) sLookup = 1;
+        
+      }
+      else if (columns == 60 && (i%4) == 0 && sLookup == 1){
+        String[] Wnew = new String[4];
+        for(int k = 0; k < 4; k++){   // Copy the previous column into a temporary storage area
+          Wnew[k] = W[k][i-1];
+        }
+        for(int m = 0; m < 4; m++){   // Perform the S-box substitution plus the rcon XOR
+            Wnew[m] = aesSbox(Wnew[m]);
+            W[m][i] = roundXOR(Wnew[m], W[m][i-keySize]);
+          }
+        sLookup = 0;
         
       }
       else{  // once we pass the first columns, if the column is not divisible by the key size...
