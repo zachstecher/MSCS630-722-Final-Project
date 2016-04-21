@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package aes;
 
 /**
  * @file: aes.java
@@ -16,8 +16,8 @@ import java.util.Arrays;
 
 public class aes {
   
-  static String[][] K = new String[4][4];
-  static String[][] W = new String[4][44];
+  public String[][] K = new String[4][4];
+  public String[][] W = new String[4][44];
   public String[][] pTextHexMat = new String[4][4];
   public String[][] cTextHex = new String[4][4];
   /*
@@ -93,7 +93,7 @@ public class aes {
           0xfb, 0xf9, 0xff, 0xfd, 0xf3, 0xf1, 0xf7, 0xf5, 0xeb, 0xe9, 0xef, 0xed, 0xe3, 0xe1, 0xe7, 0xe5
     };
 
-public static int[] mc3 = {   
+  public static int[] mc3 = {   
               0x00,0x03,0x06,0x05,0x0c,0x0f,0x0a,0x09,0x18,0x1b,0x1e,0x1d,0x14,0x17,0x12,0x11,
               0x30,0x33,0x36,0x35,0x3c,0x3f,0x3a,0x39,0x28,0x2b,0x2e,0x2d,0x24,0x27,0x22,0x21,
               0x60,0x63,0x66,0x65,0x6c,0x6f,0x6a,0x69,0x78,0x7b,0x7e,0x7d,0x74,0x77,0x72,0x71,
@@ -119,7 +119,7 @@ public static int[] mc3 = {
    * Parameters:
    * 
    * Input
-   *    keyHex - the 16-byte secret key in hex format
+   *    keyHex - the secret key in hex format
    * 
    * Method for generating the table W to be used as the round keys.
    * Copies K into the first 4 columns, then follows the key schedule to
@@ -128,9 +128,15 @@ public static int[] mc3 = {
   
   public void aesRoundKeys(String keyHex){
     initialRoundKeys(keyHex);
-    for (int i = 4; i < 44; i++){
+    int columns = 0;
+    int keySize = (keyHex.length() / 8);
+    if(keyHex.length() == 32) columns = 44;
+    if(keyHex.length() == 48) columns = 52;
+    if(keyHex.length() == 64) columns = 60;
+    
+    for (int i = keySize; i < columns; i++){
        
-      if ((i%4) == 0){ // if the column IS divisible by 4...
+      if ((i%keySize) == 0){ // if the column IS divisible by 4...
         //System.out.println("");
           String[] Wnew = new String[4];
           for(int k = 0; k < 4; k++){   // Copy the previous column into a temporary storage area
@@ -336,7 +342,7 @@ public static int[] mc3 = {
      * key to encrypt a message and provide us with a ciphertext.
      */
     
-    public String[][] aes(String pTextHex, String[][] keyHex){
+    public String[][] aesEncrypt(String pTextHex, String[][] keyHex){
       
       pTextHexMatrix(pTextHex);
       String[][] cTextHex = new String[4][4];
