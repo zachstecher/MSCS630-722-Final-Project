@@ -5,7 +5,7 @@
  * Assignment: Final Project
  * 
  * This file passes the key and plaintext from its .txt file 
- * into the aescipher class to generate the round keys and
+ * into the aes class to generate the round keys and
  * encrypt the text.
  *
  */
