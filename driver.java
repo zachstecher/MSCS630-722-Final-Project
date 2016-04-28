@@ -1,3 +1,4 @@
+
 /**
  * file: driver.java
  * @author Zach Stecher
@@ -14,7 +15,7 @@ import java.util.Scanner;
 
 public class driver {
   public static void main(String[] args){
-    AES cipher = new AES();
+    des1 cipher = new des1();
     Scanner input = new Scanner(System.in);
     String theKey = input.nextLine();
     cipher.aesRoundKeys(theKey);
