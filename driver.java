@@ -15,11 +15,16 @@ import java.util.Scanner;
 
 public class driver {
   public static void main(String[] args){
-    des1 cipher = new des1();
+    des1 decrypt = new des1();
     Scanner input = new Scanner(System.in);
     String theKey = input.nextLine();
     cipher.aesRoundKeys(theKey);
     String plainText = input.nextLine();
     cipher.aesEncrypt(plainText, cipher.W);
+    
+    String theKey = "2b7e151628aed2a6abf7158809cf4f3c";
+    String plainText = "3ad77bb40d7a3660a89ecaf32466ef97";
+    decrypt.aesRoundKeys(theKey);
+    decrypt.aesDecrypt(plainText, decrypt.W);
   }
 }
