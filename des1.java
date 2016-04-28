@@ -405,7 +405,8 @@ public static int[] mc9 = {
      * key to encrypt a message and provide us with a ciphertext.
      */
     
-    public String[][] aesEncrypt(String pTextHex, String[][] keyHex){
+    public String[][] aesDecrypt(String pTextHex, String[][] keyHex){
+      
       
       pTextHexMatrix(pTextHex);
       String[][] cTextHex = new String[4][4];
@@ -415,14 +416,14 @@ public static int[] mc9 = {
       cTextHex = aesStateXOR(pTextHexMat, roundKey);
       
       // Start the 9 normal rounds of encryption...
-      for(int i = 1; i < (rounds+1); i++){
+      for(int i = (rounds); i > 0; i--){
         for (int j = 0; j < 4; j++){
           for (int k = 0; k < 4; k ++){
             roundKey[k][j] = keyHex[k][(i*4)+j];
           }
         }
 
-	if (i != rounds){
+	if (i != 0){
 	  cTextHex = aesNibbleSub(cTextHex);
           cTextHex = aesShiftRow(cTextHex);
           cTextHex = aesMixColumn(cTextHex);
