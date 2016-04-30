@@ -1,3 +1,4 @@
+package des1;
 /*
  * @file: AES.java
  * @author Zach Stecher
@@ -415,10 +416,10 @@ public static int[] mc9 = {
       // Perform the initial Add Key
       cTextHex = aesStateXOR(pTextHexMat, roundKey);
       
-      // Start the 9 normal rounds of encryption...
-      for(int i = (rounds); i > 0; i--){
+      // Start the 9 normal rounds of decryption...
+      for(int i =9; i>=1; i--){
         for (int j = 0; j < 4; j++){
-          for (int k = 0; k < 4; k ++){
+          for (int k = 0; k < 4; k++){
             roundKey[k][j] = keyHex[k][(i*4)+j];
           }
         }
