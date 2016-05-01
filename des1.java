@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /*
  * @file: des1.java
  * @author Zach Stecher
@@ -430,10 +428,11 @@ public class des1 {
      * key to decrypt a message and provide us with the plaintext.
      */
     
-    public String[][] aesDecrypt(String pTextHex, String[][] keyHex){
+    public String aesDecrypt(String pTextHex, String[][] keyHex){
       
       
       pTextHexMatrix(pTextHex);
+      String cText = "";
       String[][] cTextHex = new String[4][4];
       String[][] roundKey = new String[4][4];
    
@@ -459,10 +458,10 @@ public class des1 {
             
       for(int i = 0; i < 4; i++){
         for(int j = 0; j < 4; j++){
-          System.out.print(cTextHex[i][j].toUpperCase());
+          cText = cText + cTextHex[i][j].toUpperCase();
         }
       }
-      return cTextHex;
+      return cText;
     }
     
     /*
