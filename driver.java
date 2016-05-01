@@ -22,8 +22,8 @@ public class driver {
     String plainText = input.nextLine();
     ECB(plainText, cipher.W);
     
-    String theKey = "2b7e151628aed2a6abf7158809cf4f3c";
-    String plainText = "3ad77bb40d7a3660a89ecaf32466ef97";
+    String theKey = "2b7e151628aed2a6abf7158809cf4f3c";		// Delete at end
+    String plainText = "3ad77bb40d7a3660a89ecaf32466ef97";	// Delete at end
     decrypt.aesRoundKeys(theKey);
     decrypt.aesDecrypt(plainText, decrypt.W);
     
