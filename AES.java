@@ -14,8 +14,8 @@
 
 public class AES {
   
-  public String[][] K = new String[4][8];		// Initialize to handle largest possible input...
-  public String[][] W = new String[4][60];		// Only use what is necessary...
+  public String[][] K = new String[4][8];   // Initialize to handle largest possible input...
+  public String[][] W = new String[4][60];    // Only use what is necessary...
   public String[][] pTextHexMat = new String[4][4];
   public String[][] cTextHex = new String[4][4];
   public int rounds = 0;
@@ -128,19 +128,19 @@ public class AES {
    */
   
   public void aesRoundKeys(String keyHex){
-	keySize = (keyHex.length() / 8);
+  keySize = (keyHex.length() / 8);
     initialRoundKeys(keyHex);
     if(keyHex.length() == 32) {
-    	columns = 44;
-    	rounds = 10;
+      columns = 44;
+      rounds = 10;
     }
     if(keyHex.length() == 48) {
-    	columns = 52;
-    	rounds = 12;
+      columns = 52;
+      rounds = 12;
     }
     if(keyHex.length() == 64) {
-    	columns = 60;
-    	rounds = 14;
+      columns = 60;
+      rounds = 14;
     }
     int sLookup = 0; // Used to determine whether or not to do the extra Sbox lookup for 256-bit
     for (int i = keySize; i < columns; i++){
@@ -363,9 +363,10 @@ public class AES {
      * key to encrypt a message and provide us with a ciphertext.
      */
     
-    public String[][] aesEncrypt(String pTextHex, String[][] keyHex){
+    public String aesEncrypt(String pTextHex, String[][] keyHex){
       
       pTextHexMatrix(pTextHex);
+      String cText = "";
       String[][] cTextHex = new String[4][4];
       String[][] roundKey = new String[4][4];
       roundKey = K;
@@ -380,12 +381,12 @@ public class AES {
           }
         }
 
-	if (i != rounds){
-	  cTextHex = aesNibbleSub(cTextHex);
+        if (i != rounds){
+          cTextHex = aesNibbleSub(cTextHex);
           cTextHex = aesShiftRow(cTextHex);
           cTextHex = aesMixColumn(cTextHex);
           cTextHex = aesStateXOR(cTextHex, roundKey);
-	}
+        }
       }
       // One more time without MixColumns...
       cTextHex = aesNibbleSub(cTextHex);
@@ -394,10 +395,10 @@ public class AES {
             
       for(int i = 0; i < 4; i++){
         for(int j = 0; j < 4; j++){
-	  System.out.print(cTextHex[i][j].toUpperCase());
+          cText = cText + cTextHex[i][j].toUpperCase();
         }
       }
-      return cTextHex;
+      return cText;
     }
     
     /*
@@ -476,7 +477,7 @@ public class AES {
         for (int j = 0; j < 4; j++){
           tempVector[j] = inStateHex[j][i];
         }
-	
+  
         // using the counter as a row marker, perform a left shift
         // that many times...
         for(int k = 0; k < counter; k++){
@@ -526,14 +527,14 @@ public class AES {
         r[3] = mc3[a[0]] ^ a[1] ^ a[2] ^ mc2[a[3]];
         
         for (int k = 0; k < 4; k++){
-	  outStateHex[i][k] = Integer.toHexString(r[k]);
-	}
+    outStateHex[i][k] = Integer.toHexString(r[k]);
+  }
       
-	for (int k = 0; k < 4; k++){
-	  if(outStateHex[i][k].length() < 2){
-	    outStateHex[i][k] = "0" + Integer.toHexString(r[k]);
-	  }
-	}
+  for (int k = 0; k < 4; k++){
+    if(outStateHex[i][k].length() < 2){
+      outStateHex[i][k] = "0" + Integer.toHexString(r[k]);
+    }
+  }
       }
       return outStateHex;
     }
