@@ -1,6 +1,6 @@
 /**
  * file: driver.java
- * @author Zach Stecher
+ * @authors Zach Stecher, Thusharika Nuthalapati, Bhargavi Madhunula
  * Class: MSCS630 - Security Algorithms and Protocols
  * Assignment: Final Project
  * 
@@ -26,6 +26,19 @@ public class driver {
     
     input.close();
   }
+  
+  /*
+   * Method: ECBencrypt
+   * 
+   * Parameters:
+   *   s - the plaintext
+   *   k - the key (in hex form)
+   *   mSize - the size of the plaintext
+   *
+   * This method handles byte padding and encryption for any size message.
+   * If not exactly 1 block long, will split into multiple blocks(if larger) 
+   * and pad to fill the block size, encrypting each block separately.
+   */
   public static String ECBencrypt(String s, String k, int mSize){
     AES cipher = new AES();
     String cText = "";
@@ -69,6 +82,18 @@ public class driver {
     return s;
   }
   
+  /*
+   * Method: ECBdecrypt
+   * 
+   * Parameters:
+   *   s - the ciphertext
+   *   k - the key (in hex form)
+   *   mSize - the size of the plaintext
+   *
+   * This method handles byte trimming and decryption for any size message.
+   * If not exactly 1 block long, will split into multiple blocks(if larger) 
+   * and pad to fill the block size, decrypting each block separately.
+   */
   public static String ECBdecrypt(String s, String k, int mSize){
     des1 decrypt = new des1();
     String pText = "";
