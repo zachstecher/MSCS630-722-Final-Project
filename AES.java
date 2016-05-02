@@ -1,6 +1,6 @@
 /**
  * @file: AES.java
- * @author Zach Stecher
+ * @authors Zach Stecher, Thusharika Nuthalapati, Bhargavi Madhunula 
  * @Class: MSCS630 - Security Algorithms and Protocols
  * @Assignment: Final Project
  * 
