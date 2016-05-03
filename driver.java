@@ -19,9 +19,6 @@ public class driver {
     String theKey = input.nextLine();
     String cipherText= "";
     int mSize = plainText.length();
-    //String theKey = "2b7e151628aed2a6abf7158809cf4f3c";   // Delete at end
-    //String plainText = "6bc1bee22e409f96e93d7e117393";  // Delete at end
-    //String cipherText = "3ad77bb40d7a3660a89ecaf32466ef97"; // Delete at end
     cipherText = ECBencrypt(plainText, theKey, mSize);
     ECBdecrypt(cipherText, theKey, mSize);
     
