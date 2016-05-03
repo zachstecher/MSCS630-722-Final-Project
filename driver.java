@@ -17,11 +17,12 @@ public class driver {
     Scanner input = new Scanner(System.in);
     String plainText = input.nextLine();
     String theKey = input.nextLine();
+    String cipherText= "";
     int mSize = plainText.length();
     //String theKey = "2b7e151628aed2a6abf7158809cf4f3c";   // Delete at end
     //String plainText = "6bc1bee22e409f96e93d7e117393";  // Delete at end
     //String cipherText = "3ad77bb40d7a3660a89ecaf32466ef97"; // Delete at end
-    String cipherText = ECBencrypt(plainText, theKey, mSize);
+    cipherText = ECBencrypt(plainText, theKey, mSize);
     ECBdecrypt(cipherText, theKey, mSize);
     
     input.close();
@@ -44,6 +45,7 @@ public class driver {
     String cText = "";
     int padSize = 0;
     int blocks = 0;
+    String cTextHolder = "";
     
     if (mSize < 32){
       cipher.aesRoundKeys(k);
@@ -77,9 +79,10 @@ public class driver {
       cipher.aesRoundKeys(k);
       cText = cipher.aesEncrypt(s.substring((i * 32), (32*(i+1))), cipher.W);
       System.out.print(cText);
+      cTextHolder = cTextHolder + cText;
     }
     System.out.println("");
-    return cText;
+    return cTextHolder;
   }
   
   /*
