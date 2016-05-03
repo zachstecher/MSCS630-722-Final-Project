@@ -78,7 +78,7 @@ public class driver {
       cText = cipher.aesEncrypt(s.substring((i * 32), (32*(i+1))), cipher.W);
       System.out.print(cText);
     }
-    
+    System.out.println("");
     return cText;
   }
   
@@ -119,7 +119,7 @@ public class driver {
       if (i == (blocks-1)){
         pText = pText.substring(0, pText.length() - (padSize*2));
       }
-      System.out.println(pText);
+      System.out.print(pText);
     }
     
     return s;
