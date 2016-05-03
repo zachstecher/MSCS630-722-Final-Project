@@ -76,7 +76,7 @@ public class driver {
     for (int i = 0; i < blocks; i++){
       cipher.aesRoundKeys(k);
       cText = cipher.aesEncrypt(s.substring((i * 32), (32*(i+1))), cipher.W);
-      System.out.println(cText);
+      System.out.print(cText);
     }
     
     return cText;
