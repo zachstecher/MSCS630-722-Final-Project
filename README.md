@@ -1,4 +1,4 @@
-# MSCS630-722-Final-Project
+# MSCS630
 An extension of AES to handle 128, 192 and 256-bit keys, as well as any size message.
 
 4/14/16
